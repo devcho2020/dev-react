@@ -8,12 +8,11 @@
       "@context/*": ["context/*"],
       "@hooks/*": ["hooks/*"],
       "@images/*": ["images/*"],
+      "@pages/*": ["[pages]/*"],
       "@store/*": ["store/*"],
       "@styles/*": ["styles/*"],
       "@utils/*": ["utils/*"]
     },
-    "strict": true,  // TypeScript의 엄격한 검사 활성화
-    "jsx": "react-jsx",  // React 17 이상 JSX 변환 방식을 사용
     // 출력할 ECMAScript의 버전 지정 (ES2020으로 설정)
     "target": "ES2020",
 
@@ -58,6 +57,9 @@
 
     // TypeScript의 JSX 처리 방식 설정
     "jsx": "react-jsx",
+
+    // TypeScript 컴파일 시 실제 파일 출력을 하지 않음
+    "noEmit": true,
 
     // 추가적인 설정 (예시: `allowImportingTsExtensions`)
     "allowImportingTsExtensions": true
