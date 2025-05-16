@@ -7,4 +7,6 @@ globalStyle('body', {
   minWidth: '320px',
   boxSizing: 'border-box',
   fontFamily: 'sans-serif',
+  height: '100vh',
+  maxHeight: '100vh'
 });

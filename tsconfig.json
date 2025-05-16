@@ -6,11 +6,13 @@
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
       "@context/*": ["context/*"],
+      "@data/*": ["data/*"],
       "@hooks/*": ["hooks/*"],
       "@images/*": ["images/*"],
-      "@pages/*": ["[pages]/*"],
+      "@pages/*": ["pages/*"],
       "@store/*": ["store/*"],
       "@styles/*": ["styles/*"],
+      "@types/*": ["types/*"],
       "@utils/*": ["utils/*"]
     },
     // 출력할 ECMAScript의 버전 지정 (ES2020으로 설정)
@@ -62,10 +64,10 @@
     "noEmit": true,
 
     // 추가적인 설정 (예시: `allowImportingTsExtensions`)
-    "allowImportingTsExtensions": true
-  },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],  // TypeScript 파일 포함
-  "exclude": ["node_modules"],  // 제외할 디렉토리
+    "allowImportingTsExtensions": true,
 
-  "strict": true
+    "types": ["react", "react-dom"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }

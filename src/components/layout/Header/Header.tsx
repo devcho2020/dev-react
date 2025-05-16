@@ -1,28 +1,26 @@
-import React from 'react'
 import { Button } from '@components/common/Button/Button';
-import * as header from '@components/layout/Header/header.css';
+import * as style from '@components/layout/Header/header.css';
 import logo from '@images/logo.png';
-
 
 const Header = () => {
   return (
-    <header className={header.headerWrapper}>
-        <div className={header.logoBox}>
+    <>
+        <div className={style.logoBox}>
             <img src={logo}/>
         </div>
-        <div className={header.title}>
+        <div className={style.title}>
             <p>GAME WORD</p>
         </div>
-        <div className={header.statusBox}>
-            <div className={header.coinInfoBox}>
+        <div className={style.statusBox}>
+            <div className={style.coinInfoBox}>
                 <span>보유 코인 : 0</span>
             </div>
-            <div className={header.chargeBox}>
+            <div className={style.chargeBox}>
                 <span>충전 횟수 : 0</span>
                 <Button>충전</Button>
             </div>
         </div>
-    </header>
+    </>
   )
 }
 
