@@ -1,13 +1,9 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom';
+import { tsMenu } from '@/types/menu';
 
 interface MenuItemProps {
-    item: {
-        name: string;
-        path?: string;
-        subPath?: string;
-        subMenuItems?: { name: string; path: string; }[];
-    };
+    item: tsMenu;
     contextPath?: string;
     isSubMenu: boolean;
     style: any;

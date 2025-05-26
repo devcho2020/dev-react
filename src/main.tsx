@@ -1,6 +1,7 @@
 import { StrictMode, JSX } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouteObject, RouterProvider } from 'react-router-dom';
+import { CoinProvider } from './context/CoinContext.tsx';
 
 import App from './App.tsx'
 
@@ -48,6 +49,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <CoinProvider>
+      <RouterProvider router={router} />
+    </CoinProvider>
   </StrictMode>,
 )

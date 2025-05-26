@@ -1,4 +1,4 @@
-export interface tsSubMenu {
+interface tsSubMenu {
     name: string;
     path: string;
 }
