@@ -1,14 +1,5 @@
 import { style, globalStyle } from "@vanilla-extract/css";
 
-const linkStyle = {
-  color: '#FFF',
-  fontWeight: 700,
-  ':hover': {
-    backgroundColor: '#e4d3bb',   
-    transition: 'background-color 0.2s ease-in-out'  
-  }
-}
-
 export const title = style({
     textAlign: 'center',
     borderBottom: '1px solid #f5e9da',
@@ -31,7 +22,25 @@ globalStyle(`${menuWrapper} a`, {
     textDecoration: 'none',
 })
 
-export const link = style(linkStyle);
+export const link = style( {
+    width: '100%',
+    color: '#FFF',
+    fontWeight: 700,
+    borderRadius: '0.125rem',
+    ':hover': {
+      color: '#78350f',
+      backgroundColor: '#e4d3bb',   
+      transition: 'background-color 0.5s ease-in-out'  
+    }
+});
+
+export const selectedLink = style({
+    width: '100%',
+    fontWeight: 700,
+    borderRadius: '0.125rem',
+    color: '#78350f',
+    backgroundColor: '#e4d3bb',
+});
 
 export const linkWrapper = style({
     margin: '1rem 0',

@@ -15,6 +15,10 @@
       "@types/*": ["types/*"],
       "@utils/*": ["utils/*"]
     },
+
+    // any타입 허용
+    "noImplicitAny": true,
+
     // 출력할 ECMAScript의 버전 지정 (ES2020으로 설정)
     "target": "ES2020",
 

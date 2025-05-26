@@ -3,6 +3,7 @@ import { style, globalStyle } from '@vanilla-extract/css'
 export const logoBox = style({
     width: '3rem',
     height: '3rem',
+    cursor: 'pointer'
 });
 
 globalStyle(`${logoBox} img`, {
