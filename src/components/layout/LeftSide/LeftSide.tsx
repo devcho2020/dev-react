@@ -4,9 +4,6 @@ import Menu from '@/components/menu/Menu';
 import { menuItem } from '@/data/menuData'
 
 const LeftSide = () => {
-
-  
-
   return (
     <>
       <div className={style.title}>MENU</div>

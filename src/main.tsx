@@ -6,15 +6,17 @@ import { CoinProvider } from './context/CoinContext.tsx';
 import App from './App.tsx'
 
 import Home from '@pages/Home.tsx';
-import Free from '@pages/board/Free.tsx';
+import Free from '@/pages/board/free/Free.tsx';
 
 import { menuItem } from './data/menuData.ts';
 
 import '@styles/global.css.ts'
+import Jjangkempo from '@pages/game/jjangkempo/Jjangkempo.tsx';
 
 const routesMap: { [key: string]: JSX.Element } = {
   '/' : <Home />,
-  '/board/free' : <Free />
+  '/board/free' : <Free />,
+  '/game/jjangkempo' : <Jjangkempo />
 }
 
 const childRoutes: RouteObject[] = [{index: true, element: <Home />}];

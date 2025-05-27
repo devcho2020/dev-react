@@ -73,14 +73,16 @@ npm install
 src/
 ├── assets/              # 이미지, 폰트, 아이콘 등 정적 파일
 ├── components/          # 재사용 가능한 UI 컴포넌트들 (Button, Input 등)
-  ├── common             # 공통 사용 컴포넌트
-  ├── layout             # layout 컴포넌트
-  └── menu               # 메뉴 컴포넌트 
+  ├── common/            # 공통 사용 컴포넌트
+  ├── layout/            # layout 컴포넌트
+  └── menu/              # 메뉴 컴포넌트 
 ├── context/             # React Context 관련 폴더
 ├── data/                # Menu 등 ts 데이터
 ├── hooks/               # 커스텀 훅들 (useFetch, useLocalStorage 등)
 ├── images/              # 이미지 파일들
 ├── pages/               # 페이지 컴포넌트들 (Home, About 등)
+  ├── board/             # 자유게시판 등
+  └── game/              # 각종 게임
 ├── store/               # Recoil 전역 상태 관리
 ├── styles/              # 전역 스타일 (Vanilla Extract 포함)
 ├── utils/               # 유틸리티 함수들 (formatDate, fetchData 등)

@@ -21,9 +21,12 @@ const App = () => {
     <div className={style.rootWrapper}>
       <header className={style.headerWrapper}><Header /></header>
       <div className={style.bodyWrapper}>
-        {isShowMenu && <aside className={style.leftSideWrapper} ><LeftSide /></aside>}
+        {isShowMenu && <aside className={style.leftSideWrapper} >
+          <LeftSide />
+          </aside>}
+          <Button className={isShowMenu ? style.leftSideButtonActive : style.leftSideButton} onClick={() => setIsShowMenu((prev:boolean) => !prev)}>{isShowMenu ? '⬅' : '➡'}</Button>
         <main className={style.mainWrapper}>
-          <Button onClick={() => setIsShowMenu((prev:boolean) => !prev)}>{isShowMenu ? '⬅' : '➡'}</Button>
+          
           <Outlet />
         </main>
       </div>

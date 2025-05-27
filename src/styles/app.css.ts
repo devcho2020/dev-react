@@ -28,22 +28,29 @@ export const bodyWrapper = style({
 });
 
 export const leftSideWrapper = style({
+
+    position: 'absolute',
+    zIndex: '9999',
+    height: 'calc(100% - 13rem)',
+    width: '10rem',
+
     backgroundColor: '#78350f',
     borderTop: '1px solid #f5e9da',
     padding: '2rem',
     color: '#FFF',
     fontWeight: 700,
-    flex: 1,
     '@media': {
         'screen and (max-width: 768px)': {
-            flex: 4,
+            width: '6rem',
             padding: '1rem',
+            height: 'calc(100% - 10rem)',
         }
     }
 });
 
 export const mainWrapper = style({
-    flex: 9
+    flex: 9,
+    padding: '2.75rem'
 });
 
 export const footerWrapper = style({
@@ -57,6 +64,22 @@ export const footerWrapper = style({
     '@media': {
         'screen and (max-width: 768px)': {
             height: '2rem'
+        }
+    },    
+});
+
+const leftSideButtonStyle = {
+    position:'absolute' as const,
+    zIndex: '9999',
+}
+
+export const leftSideButton = style(leftSideButtonStyle);
+export const leftSideButtonActive = style({
+    ...leftSideButtonStyle,
+    left: '14rem',
+    '@media': {
+        'screen and (max-width: 768px)': {
+            left: '8rem',
         }
     }
 });
