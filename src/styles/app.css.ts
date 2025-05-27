@@ -50,7 +50,7 @@ export const leftSideWrapper = style({
 
 export const mainWrapper = style({
     flex: 9,
-    padding: '2.75rem'
+    padding: '2.75rem 0 0 0'
 });
 
 export const footerWrapper = style({
