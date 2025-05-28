@@ -45,7 +45,7 @@ const Jjangkempo = () => {
   // 게임 정보
   const gameImages = [rock, scissors, paper];
   const gameValues = ['바위', '가위', '보'];
-  const possibleRewards = [2, 1, 0, 7, 1, 4, 2, 1, 0, 4, 1, 25];
+  const possibleRewards = [0, 2, 0, 7, 0, 5, 2, 0, 2, 5, 0, 25];
   const [userChoiceIndex, setUserChoiceIndex] = useState<number | null>(null);
   const [resultClass, setResultClass] = useState<string | null>(null);
   const [computerPick, setComputerPick] = useState<number | null>(null);
