@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useCoinContext } from '@/context/CoinContext';
 
 const Header = () => {
-  const { userCoin, useCharges } =useCoinContext();
+  const { userCoin, rechargeCoin } =useCoinContext();
 
   return (
     <>
@@ -23,7 +23,7 @@ const Header = () => {
             </div>
             <div className={style.chargeBox}>
                 <span>충전 횟수 : {userCoin.remainingCharges}</span>
-                <Button onClick={useCharges}>충전</Button>
+                <Button onClick={rechargeCoin}>충전</Button>
             </div>
         </div>
     </>

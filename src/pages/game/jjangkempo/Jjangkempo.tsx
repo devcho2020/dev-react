@@ -7,22 +7,57 @@ import * as style from '@pages/game/jjangkempo/jjangkempo.css'
 import rock from '@images/rock.png'
 import scissors from '@images/scissors.png'
 import paper from '@images/paper.png'
+import { tsRewardResult } from '@/types/rewardResult'
 
 
 const Jjangkempo = () => {
 
-  const { userCoin, addCoin, useCoin, useCharges } = useCoinContext();
-
-  const jjangkempoImages = [rock, scissors, paper];
+  // 사용자 코인 관리
+  const { addCoin, paymentCoin } = useCoinContext();
+  const gameCost = 100;
   
-  const [intervalNo, setIntervalNo] = useState(0);
+  // 인터벌 관리
+  const [intervalIndex, setIntervalIndex] = useState(0);
   const [intervalSpped, setIntervalSpped] = useState(1000);
   const intervalIdRef = useRef<number | null>(null);
+
+  const stopIntervalIdRef = () => {
+    if (intervalIdRef.current !== null) {
+        clearInterval(intervalIdRef.current);
+        intervalIdRef.current = null;
+      }
+  }
+
+  useEffect(() => {
+    intervalIdRef.current = setInterval(()=>{
+      setIntervalIndex((prev) => {
+        return (prev + 1) % 12;
+      })      
+    }, intervalSpped)
+
+    return () => {
+      if (intervalIdRef.current !== null) {
+        clearInterval(intervalIdRef.current);
+      }
+    };
+  }, [intervalSpped])
   
-  const possibleRewards = [2, 1, 4, 7, 1, 4, 2, 1, 7, 4, 1, 25];
+  // 게임 정보
+  const gameImages = [rock, scissors, paper];
+  const gameValues = ['바위', '가위', '보'];
+  const possibleRewards = [2, 1, 0, 7, 1, 4, 2, 1, 0, 4, 1, 25];
+  const [userChoiceIndex, setUserChoiceIndex] = useState<number | null>(null);
+  const [resultClass, setResultClass] = useState<string | null>(null);
+  const [computerPick, setComputerPick] = useState<number | null>(null);
+  const [choiceButtonDisabled, setChoiceButtonDisabled] = useState(true);
+  const [startButtonDisabled, setStartButtonDisabled] = useState(false);
+  const [rewardResults, setRewardResults] = useState<tsRewardResult[]>([]);
+
+
+  /** 화면 구성 */
   const isSmall = useIsSmallScreen();
 
-  const radius = isSmall ? 107 : 162; // 원의 반지름(px)
+  const radius = isSmall ? 107 : 158; // 원의 반지름(px)
   const center = isSmall ? 141 : 197; // 원의 중심
 
   const positionedRewards = useMemo(() =>
@@ -34,47 +69,140 @@ const Jjangkempo = () => {
   }), [possibleRewards]);
 
 
-  const stopIntervalIdRef = () => {
-    if (intervalIdRef.current !== null) {
-        clearInterval(intervalIdRef.current);
-        intervalIdRef.current = null;
-      }
+  /** 게임 관련 함수 */
+
+  const insertCoin = (useCoinValue: number) => {
+    const useCoinAt = paymentCoin(useCoinValue);
+
+    setStartButtonDisabled(true);
+    if (!useCoinAt) {
+      reStartGame();
+      return;
+    }
+    setChoiceButtonDisabled(false);
+    setIntervalSpped(200);
+  }
+
+  const choiceUserPick = (userPick: number) => {
+    setUserChoiceIndex(userPick);
+    setChoiceButtonDisabled(true);
+    
+    // TODO_컴퓨터 결과값 필요
+    const computerPick = Math.floor(Math.random() * 3);
+    const userValue = gameValues[userPick];
+    const computerValue = gameValues[computerPick];
+    
+    setComputerPick(computerPick);
+    setTimeout(() => {
+      getResult(userValue, computerValue);
+    }, 1500)
+  }
+
+  const getResult = (userValue: string, computerValue: string) => {
+
+    let isUserWin = false;
+    let resultMsg = '';
+    if((userValue === '가위' && computerValue === '보')
+      || (userValue === '바위' && computerValue === '가위')
+      || (userValue === '보' && computerValue === '바위')) {
+        isUserWin = true;
+        resultMsg = '이겼다!';
+        setIntervalSpped(50);
+        setResultClass('win');
+    } else if (userValue === computerValue) {
+      resultMsg = '비겼다!';
+      setResultClass('draw');
+      stopIntervalIdRef();
+    } else {
+      resultMsg = '졌다 ㅜ';
+      stopIntervalIdRef();
+      setResultClass('lose');
+    }
+
+    if(isUserWin) {
+      // 5~10초 후 결과 적용
+      const rendomTimeOut = (Math.floor(Math.random() * 6) + 5) * 1000;
+      setTimeout(() => {
+        stopIntervalIdRef();
+        const currentIndex = intervalIndex;
+        setIntervalIndex(currentIndex);
+        const winnerReward = possibleRewards[currentIndex] * gameCost;
+
+        setRewardResults((prev) => [
+          ...prev,
+          {
+            message: resultMsg,
+            reward: winnerReward
+          }
+        ])
+
+        addReward(winnerReward);
+      }, rendomTimeOut)
+    } else {
+      setRewardResults((prev) => [
+          ...prev,
+          {message: resultMsg}
+        ])
+      setTimeout(() => {reStartGame();}, 3000)
+    }
+  }
+
+  const addReward = (winnerReward:number) => {
+    addCoin(winnerReward);
+    setTimeout(() => { reStartGame(); }, 3000);
+  }
+
+  const reStartGame = () => {
+    setUserChoiceIndex(null);
+    setResultClass(null);
+    setChoiceButtonDisabled(true);
+    setIntervalSpped(1000);
+    setComputerPick(null);
+    setStartButtonDisabled(false);
   }
   
-  useEffect(() => {
-    intervalIdRef.current = setInterval(()=>{
-      setIntervalNo((prev) => {
-        return (prev + 1) % 12;
-      })
-    }, intervalSpped)
-
-    return () => {
-      if (intervalIdRef.current !== null) {
-        clearInterval(intervalIdRef.current);
-      }
-    };
-  }, [intervalSpped])
-
   return (
     <div className={style.jjangkempoWrapper}>
       <div className={style.circleWrapper}>
         {positionedRewards.map(({ item, inlineStyle }, index) => (
-          <div key={index} className={index === intervalNo ? 'circle selected' : 'circle'} style={inlineStyle}>{item}</div>
+          <div key={index} className={index === intervalIndex ? 'circle selected' : 'circle'} style={inlineStyle}>
+            {item === 0 ? '꽝' : item}
+            </div>
         ))}
-        <div className={style.circleImageWrapper}>
-          <img className={style.circleImage} src={jjangkempoImages[intervalNo % 3]}/>
+        <div className={`${style.circleImageWrapper} ${resultClass ?? ''}`}>
+          <img className={style.circleImage} src={ computerPick == null ? gameImages[intervalIndex % 3] : gameImages[computerPick]}/>
         </div>
       </div>
       <div>
         <div className={style.choiceWrapper}>
-          {jjangkempoImages.map((item, index) => (
+          {gameImages.map((item, index) => (
             <div key={index}>
-              <Button className={style.choiceButton}><img src={item}></img></Button>
+              <Button className={userChoiceIndex === index ? style.choicePickButton : style.choiceButton} onClick={() => choiceUserPick(index)} disabled={choiceButtonDisabled}>
+                <img className={style.choiceButtonImage} src={item} />
+              </Button>
             </div>
           ))}
         </div>
         <div className={style.choiceWrapper}>
-          <Button onClick={()=>setIntervalSpped(200)}>게임하기(100코인)</Button>
+          <Button onClick={() => insertCoin(100)} disabled={startButtonDisabled}>
+            START({gameCost})
+          </Button>
+        </div>
+        <div className={style.resultWrapper}>
+          <div className={style.resultHeadRow}>
+            <div>No</div>
+            <div>결과</div>
+            <div>보상</div>
+          </div>
+          <div className={style.resultBodyWrapper}>
+            {rewardResults.reverse().map(({message, reward}, index) => (
+              <div className={style.resultBodyRow} key={index}>
+                <div>{rewardResults.length - index}</div>
+                <div>{message}</div>
+                <div>{reward}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

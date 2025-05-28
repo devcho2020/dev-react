@@ -50,6 +50,18 @@ export const circleWrapper = style({
     }
 });
 
+globalStyle(`${circleWrapper} .win`, {
+    backgroundColor: '#09D156',
+})
+
+globalStyle(`${circleWrapper} .lose`, {
+    backgroundColor: '#FF0000',
+})
+
+globalStyle(`${circleWrapper} .draw`, {
+    backgroundColor: '#EFFF23'
+})
+
 globalStyle(`${circleWrapper} div.circle`, {
     width: '4rem',
     height: '4rem',
@@ -87,7 +99,7 @@ globalStyle(`${circleWrapper} div:nth-child(even)`, {
 export const choiceWrapper = style({
     display: 'flex',
     width: '100%',
-    marginTop: '3rem',
+    marginTop: '1rem',
     justifyContent: 'center',
     gap: '0.5rem'
 });
@@ -96,8 +108,45 @@ export const choiceButton = style({
     borderRadius: '50%',
 });
 
-globalStyle(`${choiceButton} img`, {
+export const choicePickButton = style({
+    borderRadius: '50%',
+    backgroundColor: '#09D156',
+    selectors: {
+        '&:disabled' : {
+            backgroundColor: '#09D156',
+        }
+    }
+});
+
+export const choiceButtonImage = style({
     width: '100%',
     height: '100%',
     objectFit: 'cover'
+});
+
+export const resultWrapper = style({
+    marginTop: '1rem',
+    height: '8rem',  
+    display: 'flex',
+    flexDirection: 'column'  
+});
+
+export const resultHeadRow = style({
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontWeight: '700',
+    borderBottom: '1px solid'
+});
+
+export const resultBodyWrapper = style({
+    overflowY: 'scroll'
+});
+
+export const resultBodyRow = style({
+    display: 'flex',
+    justifyContent: 'space-between',
+});
+
+globalStyle(`${resultBodyRow} div, ${resultHeadRow} div`, {
+    flex: 1
 })

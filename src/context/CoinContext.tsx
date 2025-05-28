@@ -8,9 +8,9 @@ interface CoinProviderProps {
 
 interface CoinContextType {
   userCoin: tsCoin;
-  addCoin: (addCoinValue: number) => void;  
-  useCoin: (useCoinValue: number) => void;  
-  useCharges: () => void;  
+  addCoin: (addCoinValue: number) => boolean;  
+  paymentCoin: (paymentCoinValue: number) => boolean;  
+  rechargeCoin: () => boolean;  
 }
 
 const CoinContext = createContext<CoinContextType>({
@@ -19,9 +19,9 @@ const CoinContext = createContext<CoinContextType>({
     remainingCharges: 0,
     updateDt: ''
   },
-  addCoin: () => {},
-  useCoin: () => {},
-  useCharges: () => {},
+  addCoin: () => false,
+  paymentCoin: () => false,
+  rechargeCoin: () => false,
 });
 
 export const CoinProvider = ({ children }:CoinProviderProps) => {
@@ -39,7 +39,7 @@ export const CoinProvider = ({ children }:CoinProviderProps) => {
 
   const isProcessingRef = useRef(false);
 
-  const addCoin = (addCoinValue: number) => {
+  const addCoin = (addCoinValue: number):boolean => {
     if (isProcessingRef.current) return false;
     isProcessingRef.current = true;
 
@@ -55,12 +55,12 @@ export const CoinProvider = ({ children }:CoinProviderProps) => {
     return true;
   }
 
-  const useCoin = (useCoinValue: number) => {
+  const paymentCoin = (paymentCoinValue: number):boolean => {
     if (isProcessingRef.current) return false;
     isProcessingRef.current = true;
 
     const prevCoin = isNaN(userCoin.coin) ? 0 : userCoin.coin;
-    const resultValue = prevCoin - useCoinValue
+    const resultValue = prevCoin - paymentCoinValue
     if (resultValue < 0) {
       alert('코인 모두 소진');
       isProcessingRef.current =false;
@@ -76,7 +76,7 @@ export const CoinProvider = ({ children }:CoinProviderProps) => {
     return true;
   }
 
-  const useCharges = () => {
+  const rechargeCoin = ():boolean => {
     if (isProcessingRef.current) return false;
     isProcessingRef.current = true;
 
@@ -90,16 +90,19 @@ export const CoinProvider = ({ children }:CoinProviderProps) => {
       return false;
     }
 
-    const prevCharges = isNaN(userCoin.remainingCharges) ? 0 : userCoin.remainingCharges;
-    const resultValue = prevCharges - 1;
-    setUserCoin((prev) => {
-      return {
-        ...prev,
-        coin: defaultCoin,
-        remainingCharges: resultValue
-      }
-    })
-
+    if(confirm('코인을 충전 하시겠습니까?')) {
+      const prevCharges = isNaN(userCoin.remainingCharges) ? 0 : userCoin.remainingCharges;
+      const resultValue = prevCharges - 1;
+      setUserCoin((prev) => {
+        return {
+          ...prev,
+          coin: defaultCoin,
+          remainingCharges: resultValue
+        }
+      })
+    }
+    
+    isProcessingRef.current = false;
     return true;
   }
 
@@ -151,7 +154,7 @@ export const CoinProvider = ({ children }:CoinProviderProps) => {
   }, [userCoin])
   
   return (
-    <CoinContext.Provider value={{ userCoin, addCoin, useCoin, useCharges }}>
+    <CoinContext.Provider value={{ userCoin, addCoin, paymentCoin: paymentCoin, rechargeCoin: rechargeCoin }}>
         {children}
     </CoinContext.Provider>
   )

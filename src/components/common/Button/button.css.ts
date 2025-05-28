@@ -15,4 +15,11 @@ export const button = style({
   ':active': {
     transform: 'scale(0.98)',
   },
+  selectors: {
+    '&:disabled' : {
+      backgroundColor: '#e5e7eb',
+      cursor: 'not-allowed',
+      color: '#1f1f1f'
+    }
+  }
 });
