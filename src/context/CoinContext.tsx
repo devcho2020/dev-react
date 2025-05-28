@@ -61,8 +61,13 @@ export const CoinProvider = ({ children }:CoinProviderProps) => {
 
     const prevCoin = isNaN(userCoin.coin) ? 0 : userCoin.coin;
     const resultValue = prevCoin - paymentCoinValue
-    if (resultValue < 0) {
+    
+    if (prevCoin < 0) {
       alert('코인 모두 소진');
+      isProcessingRef.current =false;
+      return false;
+    } else if (resultValue < 0) {
+      alert('보유 코인 부족!');
       isProcessingRef.current =false;
       return false;
     } else {

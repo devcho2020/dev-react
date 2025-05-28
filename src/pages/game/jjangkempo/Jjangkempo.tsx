@@ -13,8 +13,8 @@ import { tsRewardResult } from '@/types/rewardResult'
 const Jjangkempo = () => {
 
   // 사용자 코인 관리
-  const { addCoin, paymentCoin } = useCoinContext();
-  const gameCost = 100;
+  const { userCoin, addCoin, paymentCoin } = useCoinContext();
+  const [gameCost, setGameCost] = useState(100);
   
   // 인터벌 관리
   const [intervalIndex, setIntervalIndex] = useState(0);
@@ -76,6 +76,7 @@ const Jjangkempo = () => {
 
     setStartButtonDisabled(true);
     if (!useCoinAt) {
+      setGameCost(100);
       reStartGame();
       return;
     }
@@ -132,6 +133,7 @@ const Jjangkempo = () => {
           ...prev,
           {
             message: resultMsg,
+            gameCost: gameCost,
             reward: winnerReward
           }
         ])
@@ -141,7 +143,10 @@ const Jjangkempo = () => {
     } else {
       setRewardResults((prev) => [
           ...prev,
-          {message: resultMsg}
+          {
+            message: resultMsg,
+            gameCost: gameCost,
+          }
         ])
       setTimeout(() => {reStartGame();}, 3000)
     }
@@ -159,6 +164,19 @@ const Jjangkempo = () => {
     setIntervalSpped(1000);
     setComputerPick(null);
     setStartButtonDisabled(false);
+  }
+
+  const changeGameCost = (changeValue:number) => {
+    setGameCost((prev) => {
+      const result = prev + changeValue;
+      const prevCoin = userCoin.coin
+      if(result <= 100) {
+        return 100
+      } else {
+        return result > prevCoin ? (userCoin.coin < 100 ? 100 : userCoin.coin) : result;
+      }
+
+    })
   }
   
   return (
@@ -184,22 +202,30 @@ const Jjangkempo = () => {
           ))}
         </div>
         <div className={style.choiceWrapper}>
-          <Button onClick={() => insertCoin(100)} disabled={startButtonDisabled}>
+          <Button onClick={() => changeGameCost(-100)}>
+            -
+          </Button>
+          <Button onClick={() => insertCoin(gameCost)} disabled={startButtonDisabled}>
             START({gameCost})
+          </Button>
+          <Button onClick={() => changeGameCost(100)}>
+            +
           </Button>
         </div>
         <div className={style.resultWrapper}>
           <div className={style.resultHeadRow}>
             <div>No</div>
+            <div>비용</div>
             <div>결과</div>
             <div>보상</div>
           </div>
           <div className={style.resultBodyWrapper}>
-            {rewardResults.reverse().map(({message, reward}, index) => (
+            {rewardResults.reverse().map(({message, gameCost, reward}, index) => (
               <div className={style.resultBodyRow} key={index}>
                 <div>{rewardResults.length - index}</div>
+                <div>{gameCost}</div>
                 <div>{message}</div>
-                <div>{reward}</div>
+                <div>{reward === 0 ? '꽝!' : reward}</div>
               </div>
             ))}
           </div>
