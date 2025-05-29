@@ -18,7 +18,7 @@ export const menuItem:tsMenu[] = [
         "subPath" : "/game",
         "subMenuItems" : [
             { "name" : "짱깸뽀", "path" : "/jjangkempo" },
-            { "name" : "메모리게임", "path" : "/memory" }
+            { "name" : "메모리게임", "path" : "/memory-game" }
         ]
     }
 ]

@@ -12,11 +12,13 @@ import { menuItem } from './data/menuData.ts';
 
 import '@styles/global.css.ts'
 import Jjangkempo from '@pages/game/jjangkempo/Jjangkempo.tsx';
+import MemoryGame from './pages/game/memory/MemoryGame.tsx';
 
 const routesMap: { [key: string]: JSX.Element } = {
   '/' : <Home />,
   '/board/free' : <Free />,
-  '/game/jjangkempo' : <Jjangkempo />
+  '/game/jjangkempo' : <Jjangkempo />,
+  '/game/memory-game' : <MemoryGame />,
 }
 
 const childRoutes: RouteObject[] = [{index: true, element: <Home />}];

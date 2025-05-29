@@ -45,7 +45,7 @@ const Jjangkempo = () => {
   // 게임 정보
   const gameImages = [rock, scissors, paper];
   const gameValues = ['바위', '가위', '보'];
-  const possibleRewards = [0, 2, 0, 7, 0, 5, 2, 0, 2, 5, 0, 25];
+  const possibleRewards = [1, 2, 0, 7, 0, 5, 2, 0, 2, 5, 0, 25];
   const [userChoiceIndex, setUserChoiceIndex] = useState<number | null>(null);
   const [resultClass, setResultClass] = useState<string | null>(null);
   const [computerPick, setComputerPick] = useState<number | null>(null);
@@ -70,9 +70,8 @@ const Jjangkempo = () => {
 
 
   /** 게임 관련 함수 */
-
-  const insertCoin = (useCoinValue: number) => {
-    const useCoinAt = paymentCoin(useCoinValue);
+  const insertCoin = (paymentGameCost: number) => {
+    const useCoinAt = paymentCoin(paymentGameCost);
 
     setStartButtonDisabled(true);
     if (!useCoinAt) {
