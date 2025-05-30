@@ -46,7 +46,12 @@ export const memoryGameBodyWrapper = style({
     gap: '2px',
     margin: 'auto', 
     width: '100%',
-    height: '24em',
+    height: '28em',
+    '@media': {
+        'screen and (max-width:768px)': {
+            height: '20rem',
+        }
+    }
 });
 
 export const memoryGameCard = style({
@@ -79,6 +84,49 @@ export const memoryGameGraphGauge = style({
 });
 
 export const memoryGameFooter = style({
-    height: '4rem',
-    marginTop: '1rem'
+    height: '12rem',
+    marginTop: '1rem',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    '@media': {
+        'screen and (max-width:768px)': {
+            height: '10rem',
+        }
+    }
 });
+
+export const resultWrapper = style({
+    marginTop: '1rem',
+    height: '8rem',  
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'column'  
+});
+
+export const resultHeadRow = style({
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontWeight: '700',
+    borderBottom: '1px solid'
+});
+
+export const resultBodyWrapper = style({
+    overflowY: 'scroll',
+    height: '10rem',
+    '@media': {
+        'screen and (max-width:768px)': {
+            height: '5rem',
+        }
+    }
+
+});
+
+export const resultBodyRow = style({
+    display: 'flex',
+    justifyContent: 'space-between',
+});
+
+globalStyle(`${resultBodyRow} div, ${resultHeadRow} div`, {
+    flex: 1
+})

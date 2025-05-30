@@ -3,6 +3,6 @@ export interface tsMemotyGame {
     gameSize: number,
     readyTime: number,
     playTime: number
-    reward?: number
+    reward: number
     
 }
